@@ -1,6 +1,6 @@
 Package: FORD
 Type: Package
-Title: Feature Ordering By Integrated R Square Dependence
+Title: Feature Ordering by Integrated R Square Dependence
 Version: 0.1.0
 Authors@R: c(
     person(
