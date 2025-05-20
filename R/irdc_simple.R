@@ -4,7 +4,7 @@
 #' The Simple Integrated R-squared Dependence Coefficient (irdc_simple) is a measure of dependence between
 #' a continuous random variables Y and X, based on an i.i.d. sample of (Y, X).
 #' The estimated coefficient is asymptotically guaranteed to lie between 0 and 1.
-#' The measure is asymmetrical; that is, irdc_simple(X, Y) ≠ irdc_simple(Y, X).
+#' The measure is asymmetrical; that is, irdc_simple(X, Y) != irdc_simple(Y, X).
 #' The measure equals 0 if and only if X is independent of Y, and it equals 1 if and only if
 #' Y is a measurable function of X.
 #' This coefficient has several applications; for example, it can be used for independence test.
@@ -19,7 +19,7 @@
 #' The `irdc_simple` function is used for testing the independence of variables.
 #'
 #' @return The Simple Integrated R-squared Dependence Coefficient (irdc_simple) between Y and X.
-#' @importFrom stats complete.cases sd
+#' @importFrom stats complete.cases utils head
 #' @export
 #' @author Mona Azadkia, Pouya Roudaki
 #' @references Azadkia, M. and Roudaki, P. (2025). A NEW MEASURE OF DEPENDENCE: INTEGRATED R2

@@ -1,11 +1,11 @@
 Package: FORD
 Type: Package
-Title: Feature Ordering by integrated R square Dependence
+Title: Feature Ordering by Integrated R square Dependence
 Version: 0.1.0
 Authors@R: c(
     person(
       "Pouya", "Roudaki",
-      email = "roudaki.pouya@example.com",
+      email = "roudaki.pouya@gmail.com",
       role = c("aut", "cre")
     ),
     person(
@@ -22,10 +22,10 @@ LazyData: true
 URL: https://github.com/PouyaRoudaki/FORD
 BugReports: https://github.com/PouyaRoudaki/FORD/issues
 RoxygenNote: 7.3.2
-Suggests: knitr, rmarkdown, markdown, xfun, testthat
+Suggests: knitr, rmarkdown, markdown, xfun, testthat, FOCI, minerva, devtools, purrr, dplyr, tidyr, stringr, randomForest, scales, VIM, XICOR, KPC, kernlab, mice, ggplot2,  gmp, proxy
 VignetteBuilder: knitr
 Depends: R (>= 3.6.0), data.table
-Imports: RANN, proxy, parallel, gmp
+Imports: RANN, parallel
 NeedsCompilation: no
 Author: Pouya Roudaki [aut, cre],
   Mona Azadkia [aut, ctb],
