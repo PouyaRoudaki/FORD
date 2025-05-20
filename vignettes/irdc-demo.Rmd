@@ -24,7 +24,7 @@ We propose a new dependence measure $\nu(Y, \mathbf{X})$ ([*A new measure of dep
 $$
 \tilde{S} = 
 \begin{cases}
-S \setminus \{s_{\min}\} & \text{if } S \text{ has a minimum } s_{\min} \\
+S \setminus \{s_{\max}\} & \text{if } S \text{ has a maximum } s_{\max} \\
 S & \text{otherwise}
 \end{cases}
 $$
