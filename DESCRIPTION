@@ -26,5 +26,3 @@ VignetteBuilder: knitr
 Depends: R (>= 3.6.0), data.table
 Imports: RANN, parallel
 NeedsCompilation: no
-Author: Pouya Roudaki [aut, cre],
-  Mona Azadkia [aut, ctb],
