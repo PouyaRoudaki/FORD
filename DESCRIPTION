@@ -14,7 +14,6 @@ Authors@R: c(
       role = c("aut", "ctb")
     )
   )
-Maintainer: Pouya Roudaki <roudaki.pouya@gmail.com>
 Description: Feature Ordering by integrated R square Dependence (FORD) is a variable selection algorithm based on the new measure dependence: Integrated R2 dependence coefficent (IRDEC). For more information, see the paper: Azadkia and Roudaki (2025),"A NEW MEASURE OF DEPENDENCE: INTEGRATED R2" <arXiv:???>.
 License: GPL-3
 Encoding: UTF-8
