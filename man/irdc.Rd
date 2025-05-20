@@ -46,7 +46,7 @@ Azadkia, M. and Roudaki, P. (2025). A NEW MEASURE OF DEPENDENCE: INTEGRATED R2
 \url{https://arxiv.org/pdf/???}.
 }
 \seealso{
-\code{\link{ford}}, \code{\link[FOCI]\link{foci}}, \code{\link[XICOR]{xicor}}
+\code{\link{ford}}
 }
 \author{
 Mona Azadkia, Pouya Roudaki
