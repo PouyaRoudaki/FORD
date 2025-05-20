@@ -42,9 +42,6 @@ vignettes/figure/
 # R Environment Variables
 .Renviron
 
-# pkgdown site
-docs/
-
 # translation temp files
 po/*~
 
@@ -54,13 +51,5 @@ rsconnect/
 .Rdata
 .DS_Store
 .quarto
-inst/
-auxiliary/
 
-#/doc/
-#/Meta/
-#inst/doc
-#/doc/
-#/Meta/
-/doc/
-/Meta/
+

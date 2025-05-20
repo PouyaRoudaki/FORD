@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="generator" content="litedown 0.7">
+<title>irdc-demo</title>
+<style type="text/css">
+body {
+  font-family: sans-serif;
+  max-width: 800px;
+  margin: auto;
+  padding: 1em;
+  line-height: 1.5;
+  print-color-adjust: exact;
+  -webkit-print-color-adjust: exact;
+}
+body, .abstract, code, .footnotes, footer, #refs, .caption { font-size: .9em; }
+li li { font-size: .95em; }
+ul:has(li > input[type="checkbox"]) { list-style: none; padding-left: 1em; }
+*, :before, :after { box-sizing: border-box; }
+a { color: steelblue; }
+pre, img { max-width: 100%; }
+pre { white-space: pre-wrap; word-break: break-word; }
+pre code { display: block; padding: 1em; overflow-x: auto; }
+code { font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace; }
+:not(pre, th) > code, code[class], div > .caption { background: #f8f8f8; }
+pre > code:is(:not([class]), .language-plain, .language-none, .plain), .box, .figure, .table { background: inherit; border: 1px solid #eee; }
+pre > code {
+  &.message { border-color: #9eeaf9; }
+  &.warning { background: #fff3cd; border-color: #fff3cd; }
+  &.error { background: #f8d7da; border-color: #f8d7da; }
+}
+.fenced-chunk { border-left: 1px solid #666; }
+.code-fence {
+  opacity: .4;
+  border: 1px dashed #666;
+  border-left: 2px solid;
+  &:hover { opacity: inherit; }
+}
+.box, .figure, .table, table { margin: 1em auto; }
+div > .caption { padding: 1px 1em; }
+.figure { p:has(img, svg), pre:has(svg) { text-align: center; } }
+.flex-col { display: flex; justify-content: space-between; }
+table {
+  &:only-child:not(.table > *) { margin: auto; }
+  th, td { padding: 5px; font-variant-numeric: tabular-nums; }
+  thead, tfoot, tr:nth-child(even) { background: whitesmoke; }
+  thead th { border-bottom: 1px solid #ddd; }
+  &:not(.datatable-table) {
+    border-top: 1px solid #666;
+    border-bottom: 1px solid #666;
+  }
+}
+blockquote {
+  color: #666;
+  margin: 0;
+  padding: 1px 1em;
+  border-left: .5em solid #eee;
+}
+hr, .footnotes::before { border: 1px dashed #ddd; }
+.frontmatter { text-align: center; }
+#TOC {
+  a { text-decoration: none; }
+  ul { list-style: none; padding-left: 1em; }
+  & > ul { padding: 0; }
+  ul ul { border-left: 1px solid lightsteelblue; }
+}
+.body h2 { border-bottom: 1px solid #666; }
+.body .appendix, .appendix ~ h2 { border-bottom-style: dashed; }
+.main-number::after { content: "."; }
+span[class^="ref-number-"] { font-weight: bold; }
+.ref-number-fig::after, .ref-number-tab::after { content: ":"; }
+.cross-ref-chp::before { content: "Chapter "; }
+.cross-ref-sec::before { content: "Section "; }
+.cross-ref-fig::before, .ref-number-fig::before { content: "Figure "; }
+.cross-ref-tab::before, .ref-number-tab::before { content: "Table "; }
+.cross-ref-eqn::before, .MathJax_ref:has(mjx-mtext > mjx-c + mjx-c)::before { content: "Equation "; }
+.abstract, #refs {
+  &::before { display: block; margin: 1em auto; font-weight: bold; }
+}
+.abstract::before { content: "Abstract"; text-align: center; }
+#refs::before { content: "Bibliography"; font-size: 1.5em; }
+.ref-paren-open::before { content: "("; }
+.ref-paren-close::after { content: ")"; }
+.ref-semicolon::after { content: "; "; }
+.ref-and::after { content: " and "; }
+.ref-et-al::after { content: " et al."; font-style: italic; }
+.footnote-ref a {
+  &::before { content: "["; }
+  &::after { content: "]"; }
+}
+section.footnotes {
+  margin-top: 2em;
+  &::before { content: ""; display: block; max-width: 20em; }
+}
+.fade {
+  background: repeating-linear-gradient(135deg, white, white 30px, #ddd 32px, #ddd 32px);
+  opacity: 0.6;
+}
+
+@media print {
+  body { max-width: 100%; }
+  tr, img { break-inside: avoid; }
+}
+@media only screen and (min-width: 992px) {
+  body:not(.pagesjs) pre:has(.line-numbers):not(:hover) { white-space: pre; }
+}
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.14/css/prism-xcode.min.css">
+<script src="https://cdn.jsdelivr.net/combine/npm/katex@0.16.22/dist/katex.min.js,npm/katex@0.16.22/dist/contrib/auto-render.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@xiee/utils@1.14.14/js/render-katex.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" defer></script>
+</head>
+<body>
+<div class="frontmatter">
+<div class="title"><h1>irdc-demo</h1></div>
+</div>
+<div class="body">
+<h1 id="chp:introduction">Introduction</h1>
+<p>We propose a new dependence measure \(\nu(Y, \mathbf{X})\) (<a href="https://arxiv.org/pdf/1910.12327.pdf"><em>A new measure of dependence: Integrated \(R^2\)</em></a>) to assess how much a random vector \(\mathbf{X}\) explains a univariate response \(Y\). Let \(Y\) be a random variable and \(\mathbf{X} = (X_1, \cdots, X_p)\) a random vector defined on the same probability space. Let \(\mu\) be the probability law of \(Y\), and \(S\) be the support of \(\mu\). Define:</p>
+<p>$$
+\tilde{S} =
+\begin{cases}
+S \setminus \{s_{\min}\} &amp; \text{if } S \text{ has a minimum } s_{\min} \\
+S &amp; \text{otherwise}
+\end{cases}
+$$</p>
+<p>We define the measure \(\tilde{\mu}\) on \(S\) as:</p>
+<p>$$
+\tilde{\mu}(A) = \frac{\mu(A \cap \tilde{S})}{\mu(\tilde{S})}, \quad \text{for measurable } A \subseteq S
+$$</p>
+<p>Then the <strong>irdc dependence coefficient</strong> is defined as:</p>
+<p>$$
+\nu(Y, \mathbf{X}) := \int \frac{\mathrm{Var}(\mathbb{E}[\mathbf{1}{Y &gt; t} \mid \mathbf{X}])}{\mathrm{Var}(\mathbf{1}{Y &gt; t})} d\tilde{\mu}(t)
+$$</p>
+<p>In contrast, <a href="https://arxiv.org/pdf/1910.12327.pdf"><em>A Simple Measure Of Conditional Dependence</em></a> consider:</p>
+<p>$$
+T(Y, \mathbf{X}) = \frac{\int \mathrm{Var}(\mathbb{E}[\mathbf{1}{Y \ge t} \mid \mathbf{X}]) d\mu(t)}{\int \mathrm{Var}(\mathbf{1}{Y \ge t}) d\mu(t)}
+$$</p>
+<h1 id="chp:continuous-case">Continuous Case</h1>
+<pre><code class="language-r">n &lt;- 1000
+x &lt;- matrix(runif(n * 3), nrow = n)
+y &lt;- (x[, 1] + x[, 2]) %% 1
+
+irdc(y, x[, 1])
+#&gt; [1] 0.001002072
+irdc(y, x[, 2])
+#&gt; [1] 0.04123161
+irdc(y, x[, 3])
+#&gt; [1] 0.003291506
+</code></pre>
+<h1 id="chp:discrete-case">Discrete Case</h1>
+<h2 id="sec:example-1">Example 1</h2>
+<pre><code class="language-r">n &lt;- 10000
+s &lt;- 0.1
+x1 &lt;- c(rep(0, n * s), runif(n * (1 - s)))
+x2 &lt;- runif(n)
+y &lt;- x1
+
+irdc(y, x1, dist.type.X = &quot;discrete&quot;)
+#&gt; [1] 0.9441587
+irdc(y, x2)
+#&gt; [1] -0.01085533
+</code></pre>
+<h2 id="sec:example-2">Example 2</h2>
+<pre><code class="language-r">n &lt;- 10000
+x1 &lt;- runif(n)
+y1 &lt;- rbinom(n, 1, 0.5)
+y2 &lt;- as.numeric(x1 &gt;= 0.5)
+
+irdc(y1, x1, dist.type.X = &quot;discrete&quot;)
+#&gt; [1] -0.4999146
+irdc(y2, x1, dist.type.X = &quot;discrete&quot;)
+#&gt; [1] 0.003289474
+
+FOCI::codec(y1, x1)
+#&gt; [1] -0.006410306
+FOCI::codec(y2, x1)
+#&gt; [1] 1
+</code></pre>
+<h2 id="sec:example-3-hurdle-vs-gamma-mixture">Example 3: Hurdle vs Gamma Mixture</h2>
+<pre><code class="language-r">r_hurdle_poisson &lt;- function(n, p_zero = 0.3, lambda = 2) {
+  is_zero &lt;- rbinom(n, 1, p_zero)
+  rztpois &lt;- function(m, lambda) {
+    samples &lt;- numeric(m)
+    for (i in 1:m) {
+      repeat {
+        x &lt;- rpois(1, lambda)
+        if (x &gt; 0) {
+          samples[i] &lt;- x
+          break
+        }
+      }
+    }
+    samples
+  }
+  result &lt;- numeric(n)
+  result[is_zero == 0] &lt;- rztpois(sum(is_zero == 0), lambda)
+  result
+}
+
+set.seed(123)
+n &lt;- 1000
+p_zero &lt;- 0.4
+lambda &lt;- 10
+
+hurdle &lt;- r_hurdle_poisson(n, p_zero, lambda)
+gamma_mix &lt;- c(rep(0, round(p_zero * n)), rgamma(round((1 - p_zero) * n), shape = lambda, rate = 1))
+
+df &lt;- data.frame(
+  value = c(hurdle, gamma_mix),
+  source = rep(c(&quot;Hurdle Poisson&quot;, &quot;Gamma Mixture&quot;), each = n)
+)
+
+ggplot(df, aes(x = value, fill = source)) +
+  geom_histogram(alpha = 0.5, position = &quot;identity&quot;, bins = 40) +
+  labs(title = &quot;Comparison: Hurdle Poisson vs Gamma Mixture&quot;,
+       x = &quot;Value&quot;, y = &quot;Count&quot;, fill = &quot;Distribution&quot;) +
+  theme_bw()
+</code></pre>
+<p><img src="data:image/png;base64,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" alt="plot of chunk hurdle-vs-gamma" /></p>
+<h2 id="sec:example-3-continued">Example 3 Continued</h2>
+<pre><code class="language-r">x1 &lt;- sort(gamma_mix)
+y1 &lt;- rbinom(n, 1, 0.5)
+y2 &lt;- sort(hurdle)
+
+irdc(y1, x1, dist.type.X = &quot;discrete&quot;)
+#&gt; [1] -0.5095727
+irdc(y2, x1, dist.type.X = &quot;discrete&quot;)
+#&gt; [1] 0.5443523
+
+FOCI::codec(y1, x1)
+#&gt; [1] 0.04361745
+FOCI::codec(y2, x1)
+#&gt; [1] 0.9969469
+</code></pre>
+<h2 id="sec:example-4">Example 4</h2>
+<pre><code class="language-r">x1 &lt;- sort(hurdle)
+y1 &lt;- rbinom(n, 1, 0.5)
+y2 &lt;- sort(gamma_mix)
+
+irdc(y1, x1, dist.type.X = &quot;discrete&quot;)
+#&gt; [1] -0.5030198
+irdc(y2, x1, dist.type.X = &quot;discrete&quot;)
+#&gt; [1] 0.6265961
+
+FOCI::codec(y1, x1)
+#&gt; [1] -0.02403687
+FOCI::codec(y2, x1)
+#&gt; [1] 0.9450425
+</code></pre>
+<h1 id="chp:conclusion">Conclusion</h1>
+<p><em>irdc</em> provides a flexible and theoretically grounded dependence measure that works for both continuous and discrete predictors.</p>
+</div>
+</body>
+</html>
