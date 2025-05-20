@@ -231,7 +231,7 @@ ford <- function(Y, X, dist.type.X = "continuous", num_features = NULL, stop = T
 
   n <- length(Y)
 
-  if(n < 2) stop("Number of rows with no NAs should be bigger than 1.")
+  if(n < 3) stop("Number of rows with no NAs should be bigger than 3.")
 
   p = ncol(X)
 

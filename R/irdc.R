@@ -111,7 +111,7 @@ irdc <- function(Y, X, dist.type.X = "continuous", na.rm = TRUE){
 
   # First find:  \sum_{i != j} \bone{ Y_{j} \in K_{i}}
   # Use difference array to count intervals covering each rank.
-  #The idea here is to that we have an interval stabbing problem which can be solved in O(n) using a sweep line algorithm or a Fenwick tree / Binary Indexed Tree (BIT) over ranks.
+  #The idea here is to that we have an interval stabbing problem which can be solved in O(n) using a Difference Array Method.
   Dvec <- numeric(n + 1L)
   Dvec <- Dvec + tabulate(Rmin, nbins = n + 1L)
   Dvec <- Dvec - tabulate(Rmax + 1L, nbins = n + 1L)

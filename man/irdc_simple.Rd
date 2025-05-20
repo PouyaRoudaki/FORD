@@ -23,7 +23,7 @@ The estimated coefficient is asymptotically guaranteed to lie between 0 and 1.
 The measure is asymmetrical; that is, irdc_simple(X, Y) ≠ irdc_simple(Y, X).
 The measure equals 0 if and only if X is independent of Y, and it equals 1 if and only if
 Y is a measurable function of X.
-This coefficient has several applications; for example, it can be used for variable selection, as demonstrated in the \code{\link{ford}} function.
+This coefficient has several applications; for example, it can be used for independence test.
 This coefficient only implemented for the 1-Dimensional continuous random variable X and Y.
 }
 \details{

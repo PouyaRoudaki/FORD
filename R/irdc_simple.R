@@ -7,7 +7,7 @@
 #' The measure is asymmetrical; that is, irdc_simple(X, Y) ≠ irdc_simple(Y, X).
 #' The measure equals 0 if and only if X is independent of Y, and it equals 1 if and only if
 #' Y is a measurable function of X.
-#' This coefficient has several applications; for example, it can be used for variable selection, as demonstrated in the \code{\link{ford}} function.
+#' This coefficient has several applications; for example, it can be used for independence test.
 #' This coefficient only implemented for the 1-Dimensional continuous random variable X and Y.
 #' @param Y A vector of length n.
 #' @param X A vector of length n.
@@ -82,7 +82,7 @@ irdc_simple <- function(Y, X, na.rm = TRUE){
 
   # Find the vector of numerator:  \sum_{i!=j, i != j-1, i!=n } \bone{ Y_{j} \in K_{i}} where K_{i} = [min(r_i, r_{i+1}),max(r_i, r_{i+1})]
   # Difference array trick to count how many intervals contain each rank.
-  # The idea here is to that we have an interval stabbing problem which can be solved in O(n) using a sweep line algorithm or a Fenwick tree / Binary Indexed Tree (BIT) over ranks.
+  # The idea here is to that we have an interval stabbing problem which can be solved in O(n) using a Difference Array Method
   Dvec <- numeric(n + 1L)
   Dvec <- Dvec + tabulate(L, nbins = n + 1L)
   Dvec <- Dvec - tabulate(R + 1L, nbins = n + 1L)
