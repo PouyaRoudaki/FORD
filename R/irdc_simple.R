@@ -23,7 +23,6 @@
 #' @export
 #' @author Mona Azadkia, Pouya Roudaki
 #' @references Azadkia, M. and Roudaki, P. (2025). A NEW MEASURE OF DEPENDENCE: INTEGRATED R2
-#' \url{https://arxiv.org/pdf/???}.
 #' @seealso \code{\link{ford}}
 #' @examples
 #' n = 1000

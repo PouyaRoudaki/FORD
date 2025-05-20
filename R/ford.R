@@ -26,7 +26,6 @@
 #' their names and their cumulative dependence value with Y in decreasing order of predictive power.
 #' @author Mona Azadkia, Pouya Roudaki
 #' @references Azadkia, M. and Roudaki, P. (2025). A NEW MEASURE OF DEPENDENCE: INTEGRATED R2
-#' \url{https://arxiv.org/pdf/???}.
 #' @seealso \code{\link{irdc}}
 ford_main <- function(Y, X, dist.type.X = "continuous", num_features = NULL, stop = TRUE, numCores = parallel::detectCores()){
 
@@ -165,7 +164,6 @@ ford_main <- function(Y, X, dist.type.X = "continuous", num_features = NULL, sto
 #' @export
 #' @author Mona Azadkia, Pouya Roudaki
 #' @references Azadkia, M. and Roudaki, P. (2025). A NEW MEASURE OF DEPENDENCE: INTEGRATED R2
-#' \url{https://arxiv.org/pdf/???}.
 #' @references Matloff, N. (2016). Software Alchemy: Turning Complex
 #' Statistical Computations into Embarrassingly-Parallel Ones.
 #' \emph{J. of Stat. Software.}
