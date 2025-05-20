@@ -22,7 +22,7 @@ The Integrated R-squared Dependence Coefficient (irdc) between Y and X.
 The Integrated R-squared Dependence Coefficient (irdc) is a measure of dependence between
 a random variable Y and a random vector X, based on an i.i.d. sample of (Y, X).
 The estimated coefficient is asymptotically guaranteed to lie between 0 and 1.
-The measure is asymmetrical; that is, irdc(X, Y) ≠ irdc(Y, X).
+The measure is asymmetrical; that is, irdc(X, Y) != irdc(Y, X).
 The measure equals 0 if and only if X is independent of Y, and it equals 1 if and only if
 Y is a measurable function of X.
 This coefficient has several applications; for example, it can be used for variable selection, as demonstrated in the \code{\link{ford}} function.
@@ -46,7 +46,7 @@ Azadkia, M. and Roudaki, P. (2025). A NEW MEASURE OF DEPENDENCE: INTEGRATED R2
 \url{https://arxiv.org/pdf/???}.
 }
 \seealso{
-\code{\link{ford}}, \code{\link{foci}}, \code{\link[XICOR]{xicor}}
+\code{\link{ford}}, \code{\link[FOCI]\link{foci}}, \code{\link[XICOR]{xicor}}
 }
 \author{
 Mona Azadkia, Pouya Roudaki

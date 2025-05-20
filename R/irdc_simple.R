@@ -19,7 +19,7 @@
 #' The `irdc_simple` function is used for testing the independence of variables.
 #'
 #' @return The Simple Integrated R-squared Dependence Coefficient (irdc_simple) between Y and X.
-#' @importFrom stats complete.cases utils head
+#' @importFrom stats complete.cases sd
 #' @export
 #' @author Mona Azadkia, Pouya Roudaki
 #' @references Azadkia, M. and Roudaki, P. (2025). A NEW MEASURE OF DEPENDENCE: INTEGRATED R2

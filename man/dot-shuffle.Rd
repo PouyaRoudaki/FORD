@@ -16,8 +16,4 @@ A shuffled version of the input vector, or the original value if `x` has length 
 This helper function shuffles a vector only if it contains more than one element.
 If the input is a single value (length 1), it simply returns it unchanged.
 }
-\examples{
-.shuffle(c(1, 2, 3))   # Might return c(3, 1, 2)
-.shuffle(7)            # Returns 7
-}
 \keyword{internal}

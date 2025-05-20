@@ -20,7 +20,7 @@
 #' The `irdc` function is used by the \code{\link{ford}} function for variable selection.
 #'
 #' @return The Integrated R-squared Dependence Coefficient (irdc) between Y and X.
-#' @importFrom stats complete.cases sd utils head
+#' @importFrom stats complete.cases sd
 #' @export
 #' @author Mona Azadkia, Pouya Roudaki
 #' @references Azadkia, M. and Roudaki, P. (2025). A NEW MEASURE OF DEPENDENCE: INTEGRATED R2
