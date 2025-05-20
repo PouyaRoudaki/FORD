@@ -1,0 +1,165 @@
+---
+title: "irdc-demo"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{irdc-demo}
+  %\VignetteEngine{knitr::knitr}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+library(FORD)     # Our package
+library(FOCI)     # For comparison
+library(ggplot2)  # For visualization
+```
+
+# Introduction
+
+We propose a new dependence measure $\nu(Y, \mathbf{X})$ ([*A new measure of dependence: Integrated $R^2$*](https://arxiv.org/pdf/1910.12327.pdf)) to assess how much a random vector $\mathbf{X}$ explains a univariate response $Y$. Let $Y$ be a random variable and $\mathbf{X} = (X_1, \cdots, X_p)$ a random vector defined on the same probability space. Let $\mu$ be the probability law of $Y$, and $S$ be the support of $\mu$. Define:
+
+$$
+\tilde{S} = 
+\begin{cases}
+S \setminus \{s_{\min}\} & \text{if } S \text{ has a minimum } s_{\min} \\
+S & \text{otherwise}
+\end{cases}
+$$
+
+We define the measure $\tilde{\mu}$ on $S$ as:
+
+$$
+\tilde{\mu}(A) = \frac{\mu(A \cap \tilde{S})}{\mu(\tilde{S})}, \quad \text{for measurable } A \subseteq S
+$$
+
+Then the **irdc dependence coefficient** is defined as:
+
+$$
+\nu(Y, \mathbf{X}) := \int \frac{\mathrm{Var}(\mathbb{E}[\mathbf{1}\{Y > t\} \mid \mathbf{X}])}{\mathrm{Var}(\mathbf{1}\{Y > t\})} d\tilde{\mu}(t)
+$$
+
+In contrast, [*A Simple Measure Of Conditional Dependence*](https://arxiv.org/pdf/1910.12327.pdf) consider:
+
+$$
+T(Y, \mathbf{X}) = \frac{\int \mathrm{Var}(\mathbb{E}[\mathbf{1}\{Y \ge t\} \mid \mathbf{X}]) d\mu(t)}{\int \mathrm{Var}(\mathbf{1}\{Y \ge t\}) d\mu(t)}
+$$
+
+# Continuous Case
+
+```{r continuous}
+n <- 1000
+x <- matrix(runif(n * 3), nrow = n)
+y <- (x[, 1] + x[, 2]) %% 1
+
+irdc(y, x[, 1])
+irdc(y, x[, 2])
+irdc(y, x[, 3])
+```
+
+# Discrete Case
+
+## Example 1
+
+```{r discrete-1}
+n <- 10000
+s <- 0.1
+x1 <- c(rep(0, n * s), runif(n * (1 - s)))
+x2 <- runif(n)
+y <- x1
+
+irdc(y, x1, dist.type.X = "discrete")
+irdc(y, x2)
+```
+
+## Example 2
+
+```{r discrete-2}
+n <- 10000
+x1 <- runif(n)
+y1 <- rbinom(n, 1, 0.5)
+y2 <- as.numeric(x1 >= 0.5)
+
+irdc(y1, x1, dist.type.X = "discrete")
+irdc(y2, x1, dist.type.X = "discrete")
+
+FOCI::codec(y1, x1)
+FOCI::codec(y2, x1)
+```
+
+## Example 3: Hurdle vs Gamma Mixture
+
+```{r hurdle-vs-gamma}
+r_hurdle_poisson <- function(n, p_zero = 0.3, lambda = 2) {
+  is_zero <- rbinom(n, 1, p_zero)
+  rztpois <- function(m, lambda) {
+    samples <- numeric(m)
+    for (i in 1:m) {
+      repeat {
+        x <- rpois(1, lambda)
+        if (x > 0) {
+          samples[i] <- x
+          break
+        }
+      }
+    }
+    samples
+  }
+  result <- numeric(n)
+  result[is_zero == 0] <- rztpois(sum(is_zero == 0), lambda)
+  result
+}
+
+set.seed(123)
+n <- 1000
+p_zero <- 0.4
+lambda <- 10
+
+hurdle <- r_hurdle_poisson(n, p_zero, lambda)
+gamma_mix <- c(rep(0, round(p_zero * n)), rgamma(round((1 - p_zero) * n), shape = lambda, rate = 1))
+
+df <- data.frame(
+  value = c(hurdle, gamma_mix),
+  source = rep(c("Hurdle Poisson", "Gamma Mixture"), each = n)
+)
+
+ggplot(df, aes(x = value, fill = source)) +
+  geom_histogram(alpha = 0.5, position = "identity", bins = 40) +
+  labs(title = "Comparison: Hurdle Poisson vs Gamma Mixture",
+       x = "Value", y = "Count", fill = "Distribution") +
+  theme_bw()
+```
+
+## Example 3 Continued
+
+```{r discrete-3}
+x1 <- sort(gamma_mix)
+y1 <- rbinom(n, 1, 0.5)
+y2 <- sort(hurdle)
+
+irdc(y1, x1, dist.type.X = "discrete")
+irdc(y2, x1, dist.type.X = "discrete")
+
+FOCI::codec(y1, x1)
+FOCI::codec(y2, x1)
+```
+
+## Example 4
+
+```{r discrete-4}
+x1 <- sort(hurdle)
+y1 <- rbinom(n, 1, 0.5)
+y2 <- sort(gamma_mix)
+
+irdc(y1, x1, dist.type.X = "discrete")
+irdc(y2, x1, dist.type.X = "discrete")
+
+FOCI::codec(y1, x1)
+FOCI::codec(y2, x1)
+```
+
+# Conclusion
+
+*irdc* provides a flexible and theoretically grounded dependence measure that works for both continuous and discrete predictors. 

@@ -1,0 +1,167 @@
+---
+title: "indep-test"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{indep-test}
+  %\VignetteEngine{knitr::knitr}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+library(minerva)  # For Data
+library(FORD)     # Our package
+library(XICOR)    # For comparison
+library(ggplot2)  # For visualization
+```
+
+# Introduction
+
+We propose a simple dependence measure $\nu(Y, \mathbf{X})$ ([*A new measure of dependence: Integrated $R^2$*](https://arxiv.org/pdf/1910.12327.pdf).) to assess how much a random variable $X$ explains a univariate response $Y$.
+
+
+
+Then the **simple irdc dependence measure** is defined as:
+
+$$
+    \nu_{n}^{\text{1-dim}}(Y, X) := 1 - \frac{1}{2}\sum_{j \atop r_j \neq 1, n}\sum_{i\neq j, j - 1, n} \frac{\mathbb{I}[r_j\in\mathcal{K}_i]}{(r_j - 1)(n - r_j)}.
+$$
+where $\mathbb{I}[r_j\in\mathcal{K}_i]$ is a 0-1 indicator function and $\mathcal{K}_i := (\min\{r_i, r_{i + 1}\}, \max\{r_{i}, r_{i + 1}\})$ when we ordered data with respect to $X$ and rank with respect to $Y$.  We conjecture that under the same assumptions $\sqrt{n}\nu_{n}^{\text{1-dim}}(Y, X)$ converges in distribution to $N(0, \pi^2/3 - 3)$ as $n\rightarrow\infty$.
+
+We compare this metric with the ([*A new coefficient of correlation*, Chatterjee 2021](https://www.tandfonline.com/doi/full/10.1080/01621459.2020.1758115).
+The $\xi$ measure is defined as following:
+$$
+\xi_n(X, Y) := 1 - \frac{3 \sum_{i=1}^{n-1} |r_{i+1} - r_i|}{n^2 - 1}.
+$$
+where we ordered data with respect to $X$ and rank with respect to $Y$.
+
+([Chatterjee 2021](https://www.tandfonline.com/doi/full/10.1080/01621459.2020.1758115)
+showed that given $X$ and $Y$ are independent and $Y$ is continuous. Then
+$$
+\sqrt{n} \, \xi_n(X, Y) \xrightarrow{d} \mathcal{N}(0, 2/5) \quad \text{in distribution as } n \to \infty.
+$$
+
+# Pattern detection for Yeast genes
+
+In this study, we use the revised and curated dataset, `Spellman` in `R` package`minerva`, with 4381 genes to study the power of $ \nu_{n}^{\text{1-dim}}(Y, X)$ in discovering genes with oscillating transcript levels, and compare its performance with the competing
+tests by $\xi_n$. We also explore the possible patterns in this dataset.
+
+### Load and Prepare Data
+
+```{r}
+# Load yeast gene expression data
+yeast_genes_data <- as.data.frame(Spellman)
+gene_names <- colnames(yeast_genes_data)[-1]
+time_points <- yeast_genes_data$time
+n <- length(time_points)
+```
+
+### Initialize Results Storage
+
+```{r}
+xi_vals <- numeric(ncol(yeast_genes_data) - 1)
+xi_pvals <- numeric(ncol(yeast_genes_data) - 1)
+ird_vals <- numeric(ncol(yeast_genes_data) - 1)
+ird_pvals <- numeric(ncol(yeast_genes_data) - 1)
+```
+
+### Run Dependence Measures for Each Gene
+
+```{r}
+for (i in 1:(ncol(yeast_genes_data) - 1)) {
+  y <- as.numeric(yeast_genes_data[, i + 1])
+
+  # XICOR
+  xi_pvals[i] <- xicor(x = time_points , y = y, pvalue = T)$pval
+  
+  # IRDC
+  ird <- irdc_simple(Y = y, X = time_points)
+  ird_vals[i] <- ird
+  ird_pvals[i] <-  1 - pnorm(ird, mean = 2/n , sd = sqrt((pi^2 / 3 - 3)/n))
+}
+```
+
+### Adjust p-values and Identify Significant Genes
+
+```{r}
+xi_fdr <- p.adjust(xi_pvals, method = "BH")
+ird_fdr <- p.adjust(ird_pvals, method = "BH")
+
+sig_xi <- gene_names[xi_fdr < 0.05]
+sig_ird <- gene_names[ird_fdr < 0.05]
+common_genes <- intersect(sig_xi, sig_ird)
+
+cat("All genes:", length(gene_names) , "\n")
+cat("XICOR significant genes:", length(sig_xi), "\n")
+cat("Simple IRDC significant genes:", length(sig_ird), "\n")
+cat("Overlap:", length(common_genes), "\n")
+cat("ONLY XICOR significant genes:", length(setdiff(sig_xi, sig_ird)), "\n")
+cat("ONLY Simple IRDC significant genes:", length(setdiff(sig_ird, sig_xi)), "\n")
+```
+## Genes Only Detected by IRDC
+
+```{r}
+irdc_detected_only <- setdiff(sig_ird, sig_xi)
+irdc_only_fdr <- ird_fdr[match(irdc_detected_only, gene_names)]
+top6_idx <- order(irdc_only_fdr)[1:6]
+smallest_p_irdc_do <- irdc_detected_only[top6_idx]
+
+irdc_do_genes <- yeast_genes_data[, which(gene_names %in% smallest_p_irdc_do) + 1]
+irdc_do_genes <- cbind(time_points, irdc_do_genes)
+```
+
+### Plot Top Genes Only Detected by IRDC
+
+```{r, fig.height=4, fig.width=6, results='asis'}
+for (i in 1:6) {
+  gene_to_plot <- colnames(irdc_do_genes)[i + 1]
+  idx <- match(gene_to_plot, gene_names)
+
+  p <- ggplot(irdc_do_genes, aes(x = time_points, y = .data[[gene_to_plot]])) +
+    geom_point() +
+    theme_bw() +
+    labs(
+      title = paste0("Only Detected by nu: xi FDR = ", round(xi_fdr[idx], 4),
+                     ", nu FDR = ", round(ird_fdr[idx], 4)),
+      x = "Time Points",
+      y = gene_to_plot
+    )
+  print(p)
+}
+```
+
+## Genes with Largest FDR Difference (IRDC Only)
+
+```{r}
+xi_irdc_only_fdr <- xi_fdr[match(irdc_detected_only, gene_names)]
+top6_diff <- order(-(xi_irdc_only_fdr - irdc_only_fdr))[1:6]
+largest_p_dif_irdc_do <- irdc_detected_only[top6_diff]
+
+irdc_do_large_diff_genes <- yeast_genes_data[, which(gene_names %in% largest_p_dif_irdc_do) + 1]
+irdc_do_large_diff_genes <- cbind(time_points, irdc_do_large_diff_genes)
+```
+
+### Plot Top Genes with Largest FDR Discrepancy
+
+```{r, fig.height=4, fig.width=6, results='asis'}
+for (i in 1:6) {
+  gene_to_plot <- colnames(irdc_do_large_diff_genes)[i + 1]
+  idx <- match(gene_to_plot, gene_names)
+
+  p <- ggplot(irdc_do_large_diff_genes, aes(x = time_points, y = .data[[gene_to_plot]])) +
+    geom_point() +
+    theme_bw() +
+    labs(
+      title = paste0("Only Detected by nu: xi FDR = ", round(xi_fdr[idx], 4),
+                     ", nu FDR = ", round(ird_fdr[idx], 4)),
+      x = "Time Points",
+      y = gene_to_plot
+    )
+  print(p)
+}
+```
+
+

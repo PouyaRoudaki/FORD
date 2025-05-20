@@ -1,0 +1,359 @@
+---
+title: "Simulations"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{simulations}
+  %\VignetteEngine{knitr::knitr}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+devtools::install()
+library(FORD)
+library(dplyr)
+library(knitr)
+library(stringr)
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+```
+
+## Introduction 
+
+We consider the following models with $\mathbf{X}=\left(X_1, \ldots, X_p\right) \sim N\left(0, I_p\right) \in \mathbb{R}^p$ :
+
+
+- **LM** (linear model in *Deb et al., 2022*):  
+  $$
+  Y = 3 X_1 + 2 X_2 - X_3 + N(0,1).
+  $$
+
+- **GAM** (generalized additive model in *Deb et al., 2022*):  
+  $$
+  Y = \sin(X_1) + 2 \cos(X_2) + e^{X_3} + N(0,1).
+  $$
+
+- **Nonlin1** (Nonlinear model in *Azadkia & Chatterjee, 2021* and *Deb et al., 2022*):  
+  $$
+  Y = X_1 X_2 + \sin(X_1 X_3).
+  $$
+
+- **Nonlin2** (heavy-tailed in *Deb et al., 2022*):  
+  $$
+  Y = \frac{2 \log(X_1^2 + X_2^4)}{\cos(X_1) + \sin(X_3)} + \epsilon, \quad \epsilon \sim t_1
+  $$
+
+- **Nonlin3** (Non-additive noise in *Deb et al., 2022*):  
+  $$
+  Y = |X_1 + U|^{\sin(X_2 - X_3)}, \quad U \sim \text{Uniform}[0,1]
+  $$
+
+- **Shine 1** (Oscillation in middle):  
+  $$
+  Y = \frac{\sin(X_1)}{X_1} + X_2 X_3
+  $$
+
+- **Shine 2** (Smooth Oscillation in middle):  
+  $$
+  Y = \frac{\sin(X_1)}{\sqrt{|X_1|}} + X_2 X_3
+  $$
+
+- **Shine 3** (Single interactive oscillation in middle):  
+  $$
+  Y = \frac{\sin(X_1)}{X_2} + X_2 X_3
+  $$
+
+- **Shine 4** (Multi interactive oscillations in middle):  
+  $$
+  Y = \frac{\sin(X_1)}{X_3} + \frac{\sin(X_2)}{X_1} + \frac{\sin(X_3)}{X_2}
+  $$
+  
+## Code Example
+
+```{r code example of Shine 3, eval=FALSE}
+# Libraries ----
+library(parallel)
+library(foreach)
+library(FOCI)
+library(KPC)
+library(ford)
+
+# Experiment
+it <- 1000
+N <- c(100, 500, 1000)
+p <- 1000
+
+markov_blanket_size <- 3
+
+for(n in N){
+  n.cores <- parallel::detectCores() 
+  my.cluster <- parallel::makeCluster(n.cores, type = "PSOCK")
+  doParallel::registerDoParallel(cl = my.cluster)
+  
+  singleRun <- function() {
+    
+    X <- matrix(rnorm(n * p), ncol = p)
+    Y <-  sin(X[, 1])/((X[, 2])) + X[,2]* X[,3]
+    
+    
+    ford <- ford(Y, X)$selectedVar$index
+    foci <- foci(Y, X)$selectedVar$index
+    #kfoci <- KFOCI(Y, X)
+
+    
+    number_of_selected_var_ford <- length(ford)
+    number_of_selected_var_foci <- length(foci)
+
+    
+    true_selected_ford <- length(intersect(ford, 1:markov_blanket_size))
+    true_selected_foci <- length(intersect(foci, 1:markov_blanket_size))
+
+
+    false_selected_ford <- length(setdiff(ford, 1:markov_blanket_size))
+    false_selected_foci <- length(setdiff(foci, 1:markov_blanket_size))
+
+
+    flag_1_selected_ford <- 1*(1 %in% ford)
+    flag_1_selected_foci <- 1*(1 %in% foci)
+
+
+    flag_2_selected_ford <- 1*(2 %in% ford)
+    flag_2_selected_foci <- 1*(2 %in% foci)
+
+
+    flag_3_selected_ford <- 1*(3 %in% ford)
+    flag_3_selected_foci <- 1*(3 %in% foci)
+
+    
+    return(c(number_of_selected_var_ford, number_of_selected_var_foci,
+             true_selected_ford, true_selected_foci,
+             false_selected_ford, false_selected_foci,
+             flag_1_selected_ford, flag_1_selected_foci,
+             flag_2_selected_ford, flag_2_selected_foci,
+             flag_3_selected_ford, flag_3_selected_foci
+             ))
+  }
+  
+  values <- foreach(i = 1:it, .packages = c("FOCI", "RANN", "ford")) %dopar% {
+    singleRun()
+  }
+  
+  print(n)
+
+  saveRDS(object = values, file = paste("/results/Shine3_MB", markov_blanket_size,"_n", n, "_p", p, ".RDS", sep = ""))
+  parallel::stopCluster(cl = my.cluster)
+}
+```
+
+
+## Results
+
+```{r Results}
+# Load all data
+
+getwd()
+file_path <- system.file("extdata", "final_simulation_results", package = "FORD")
+
+rds_files <- list.files(file_path, pattern = "\\.rds$", full.names = TRUE)
+
+rds_list <- lapply(rds_files, readRDS)
+
+names(rds_list) <- tools::file_path_sans_ext(basename(rds_files))
+
+
+# Define a helper function to process each element
+process_rds_element <- function(data_list, name) {
+  df <- as.data.frame(do.call(rbind, data_list))
+  colnames(df) <- c("number_of_selected_var_FORD", "number_of_selected_var_FOCI",
+                    "true_selected_FORD", "true_selected_FOCI",
+                    "false_selected_FORD", "false_selected_FOCI",
+                    "flag_1_selected_FORD", "flag_1_selected_FOCI",
+                    "flag_2_selected_FORD", "flag_2_selected_FOCI",
+                    "flag_3_selected_FORD", "flag_3_selected_FOCI")
+
+  df <- df %>% mutate(
+    exact_flag_FORD = 1 * (true_selected_FORD == 3 & false_selected_FORD == 0),
+    exact_flag_FOCI = 1 * (true_selected_FOCI == 3 & false_selected_FOCI == 0),
+    inclusion_flag_FORD = 1 * (true_selected_FORD == 3),
+    inclusion_flag_FOCI = 1 * (true_selected_FOCI == 3)
+  )
+
+  df_summary <- df %>% summarise(
+    exact_flag_FORD = mean(exact_flag_FORD),
+    inclusion_flag_FORD = mean(inclusion_flag_FORD),
+    number_of_selected_var_FORD = mean(number_of_selected_var_FORD),
+    exact_flag_FOCI = mean(exact_flag_FOCI),
+    inclusion_flag_FOCI = mean(inclusion_flag_FOCI),
+    number_of_selected_var_FOCI = mean(number_of_selected_var_FOCI)
+  )
+
+  df_summary$Models <- str_split(name,"_")[[1]][1]
+    
+  df_summary$n <- as.numeric(str_remove(str_split(name,"_")[[1]][3],"n"))
+  return(df_summary)
+}
+
+# Process all 27 elements
+all_results <- purrr::imap_dfr(rds_list, process_rds_element)
+
+# Reorder columns
+all_results <- all_results %>%
+  select(Models,n, everything()) %>% 
+  arrange(Models,n)
+
+# Display as a kable table
+kable(all_results, caption = "Summary of Selection Accuracy for Each Simulation Setting", digits = 3)
+```
+
+
+## An experiment on the running time:
+
+In this experiment, we compare the computational complexity of $\xi_n$ from [*A new coefficient of correlation*, Chatterjee 2021](https://www.tandfonline.com/doi/full/10.1080/01621459.2020.1758115), $T_n$ from [*A Simple Measure Of Conditional Dependence*](https://arxiv.org/pdf/1910.12327.pdf), $\widehat{\rho^2}$ and $\widetilde{\rho^2}$ from [*Kernel Partial Correlation Coefficient*](https://www.jmlr.org/papers/volume23/21-493/21-493.pdf), with the proposed metrics in this paper: $\nu_n$ and $\nu_{n}^{\text{1-dim}}$. 
+
+We sampled $X$ and $Y$ independently from standard normal distributions and conducted 100 replications. The average computation time for each method was then recorded. 
+
+### Implementation
+
+```{r time simulation, eval=FALSE}
+# Libraries ----
+library(XICOR)
+library(ford)
+library(FOCI)
+library(KPC)
+library(doParallel)
+library(foreach)
+
+# Sample sizes ----
+sizes <- c(1e1, floor(3.162278 * 10), 1e2, floor(3.162278 * 100),
+           1e3, floor(3.162278 * 1000), 1e4)
+
+# Detect and register all available cores
+num_cores <- parallel::detectCores()
+cl <- makeCluster(num_cores)
+registerDoParallel(cl)
+
+# Initialize results list
+time_list <- list()
+
+# Loop over sample sizes
+for (n in sizes) {
+  cat("Running for n =", n, "\n")
+  
+  res <- foreach(i = 1:100, .combine = rbind, .packages = c("XICOR", "ford", "FOCI", "KPC")) %dopar% {
+    set.seed(i)
+    X <- rnorm(round(n))
+    Y <- rnorm(round(n))
+    
+    # Compute values and elapsed times
+    xicor_time <- system.time(xicor(X, Y))["elapsed"]
+    codec_time <- system.time(codec(Y = Y, Z = X))["elapsed"]
+    kpc_graph_time <- system.time(KPCgraph(Y = Y, Z = X, X = NULL))["elapsed"]
+    kpc_rkhs_time <- system.time( KPCRKHS(Y = Y, Z = X, X = NULL))["elapsed"]
+    irdc_time <- system.time( irdc(Y, X))["elapsed"]
+    irdc_simple_time <- system.time( irdc_simple(Y, X))["elapsed"]
+    
+    # Return results as data.frame
+    data.frame(
+      n = n,
+      xicor_time = xicor_time,
+      codec_time = codec_time,
+      kpc_graph_time = kpc_graph_time,
+      kpc_rkhs_time = kpc_rkhs_time,
+      irdc_time = irdc_time,
+      irdc_simple_time = irdc_simple_time
+    )
+  }
+  
+  time_list[[as.character(n)]] <- res
+}
+
+# Stop the parallel cluster
+stopCluster(cl)
+
+# Save results
+saveRDS(time_list, "/results/method_timings_by_size.rds")
+```
+
+
+## Results
+
+```{r timings, fig.width=8, fig.height=3}
+file_path <- system.file("extdata", "method_timings_by_size.rds", package = "FORD")
+method_timings_by_size <- readRDS(file_path)
+
+# Initialize result list
+summary_list <- lapply(names(method_timings_by_size), function(n_val) {
+  df <- method_timings_by_size[[n_val]]
+  means <- colMeans(df)
+  data.frame(n = as.numeric(n_val), t(means))
+})
+
+# Combine into a single dataframe
+summary_df <- do.call(rbind, summary_list)
+summary_df <- summary_df %>% select(-n.1)
+
+# Display as a kable table
+kable(summary_df, caption = "Summary of Simulation Time for different methods")
+
+# Pivot to long format
+long_time_df <- summary_df %>%
+  pivot_longer(
+    cols = -n,
+    names_to = "method",
+    values_to = "time"
+  )
+
+# View the result
+#print(long_time_df)
+
+
+# Step 1: Create reference complexity lines
+n_vals <- unique(long_time_df$n)
+ref_df <- tibble(
+  n = n_vals,
+  `n log n` = n_vals * log(n_vals),
+  `n^2` = n_vals^2
+) %>%
+  mutate(
+    `n log n` = 1e-6 * `n log n`,
+    `n^2` = 1e-8 * `n^2`
+  ) %>%
+  pivot_longer(cols = c(`n log n`, `n^2`), names_to = "method", values_to = "time")
+
+# Step 2: Bind with actual data
+combined_df <- bind_rows(long_time_df, ref_df)
+
+# Step 3: Define manual aesthetics
+color_manual <- c(
+  "n log n" = "gray50",
+  "n^2" = "black"
+)
+linetype_manual <- c(
+  "n log n" = "dashed",
+  "n^2" = "dotted"
+)
+
+# Set solid line for other methods
+methods <- unique(long_time_df$method)
+for (m in methods) {
+  color_manual[m] <- scales::hue_pal()(length(methods))[which(methods == m)]
+  linetype_manual[m] <- "solid"
+}
+
+# Step 4: Plot
+ggplot(combined_df, aes(x = n, y = time, color = method, linetype = method)) +
+  geom_line(linewidth = 1) +
+  geom_point(data = filter(long_time_df, !method %in% c("n log n", "n^2"))) +
+  scale_x_log10() +
+  scale_y_log10() +
+  scale_color_manual(values = color_manual) +
+  scale_linetype_manual(values = linetype_manual) +
+  theme_bw() +
+  labs(x = "n", y = "Time")
+```
+
+As shown in the table and plot, the most efficient methods in terms of time complexity are $\nu_n^{\text{1-dim}}$ and $\xi_n$, both exhibiting $O(n \log n)$ behavior. The statistics $\nu_n$ and $T_n$ also operate with $O(n \log n)$ complexity. In contrast, the kernel-based measures $\widehat{\rho^2}$ and $\widetilde{\rho^2}$ are significantly more computationally expensive, with a time complexity of $O(n^2)$.

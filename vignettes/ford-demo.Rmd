@@ -1,0 +1,102 @@
+---
+title: "ford-demo"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{ford-demo}
+  %\VignetteEngine{knitr::knitr}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+library(FORD)   
+library(FOCI)
+```
+
+# Introduction
+
+In this vignette, we demonstrate **FORD**, a forward stepwise variable selection algorithm based on the integrated $R^2$ dependence measure. **FORD** is designed for variable ranking in both linear and nonlinear multivariate regression settings.
+
+**FORD** closely follows the structure of **FOCI** [*A Simple Measure Of Conditional Dependence*](https://arxiv.org/pdf/1910.12327.pdf), but replaces the core dependence measure with **irdc**.
+
+---
+
+# Algorithm
+
+Let $Y$ be the response variable and $\mathbf{X} = (X_1, \dots, X_p)$ the predictor variables. Given $n$ i.i.d. samples of $(Y, \mathbf{X})$, FORD proceeds as follows:
+
+1. Select $j_1 = \arg\max_j \nu_n(Y, X_j)$  
+   If $\nu_n(Y, X_{j_1}) \leq 0$, return $\hat{V} = \emptyset$
+
+2. Iteratively add the feature that gives the **maximum increase** in irdc:
+   $$
+   j_{k+1} = \arg\max_{j \notin \{j_1, \ldots, j_k\}} \nu_n(Y, (X_{j_1}, \ldots, X_{j_k}, X_j))
+   $$
+
+3. Stop when the irdc does not increase anymore:
+   $$
+   \nu_n(Y, (X_{j_1}, \ldots, X_{j_k}, X_{j_{k+1}})) \leq \nu_n(Y, (X_{j_1}, \ldots, X_{j_k}))
+   $$
+
+If no such $k$ exists, select all variables.
+
+---
+
+# Example 1 — Complex nonlinear function of first 4 features
+
+Here, $Y$ depends only on the first 4 features of $X$ in a nonlinear way.
+
+```{r example-1}
+set.seed(42)
+n <- 2000
+p <- 100
+X <- matrix(rnorm(n * p), ncol = p)
+colnames(X) <- paste0("X", seq_len(p))
+Y <- X[, 1] * X[, 2] + sin(X[, 1] * X[, 3]) + X[, 4]^2
+```
+
+## FOCI Result
+
+```{r foci-result1}
+result_foci_1 <- foci(Y, X, numCores = 1)
+result_foci_1
+```
+
+## FORD Result
+
+```{r ford-result1}
+result_ford_1 <- ford(Y, X, numCores = 1)
+result_ford_1
+```
+
+---
+
+# Example 2 — Selecting a fixed number of variables
+
+We can force both FOCI and FORD to select a specific number of variables instead of using an automatic stopping rule.
+
+## FOCI with 5 selected features
+
+```{r foci-result2}
+result_foci_2 <- foci(Y, X, num_features = 5, stop = FALSE, numCores = 1)
+result_foci_2
+```
+
+## FORD with 5 selected features
+
+```{r ford-result2}
+result_ford_2 <- ford(Y, X, num_features = 5, stop = FALSE, numCores = 1)
+result_ford_2
+```
+
+---
+
+# Conclusion
+
+**FORD** provides an interpretable, irdc-based alternative to FOCI for variable selection in regression tasks. It offers a principled forward selection framework that can detect complex nonlinear relationships and be adapted for fixed-size feature subsets.
+
+For further theoretical details, see our paper:  
+Azadkia and Roudaki (2025), [*A new measure of dependence: Integrated $R^2$*](https://arxiv.org/pdf/1910.12327.pdf).
