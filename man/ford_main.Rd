@@ -47,7 +47,6 @@ num_features, ordered according to predictive power (as measured by irdc) is pro
 }
 \references{
 Azadkia, M. and Roudaki, P. (2025). A NEW MEASURE OF DEPENDENCE: INTEGRATED R2
-\url{https://arxiv.org/pdf/???}.
 }
 \seealso{
 \code{\link{irdc}}

@@ -132,7 +132,6 @@ ford(y, x, parPlat = cls)
 }
 \references{
 Azadkia, M. and Roudaki, P. (2025). A NEW MEASURE OF DEPENDENCE: INTEGRATED R2
-\url{https://arxiv.org/pdf/???}.
 
 Matloff, N. (2016). Software Alchemy: Turning Complex
 Statistical Computations into Embarrassingly-Parallel Ones.

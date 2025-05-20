@@ -42,7 +42,6 @@ irdc_simple(y, x[, 3])
 }
 \references{
 Azadkia, M. and Roudaki, P. (2025). A NEW MEASURE OF DEPENDENCE: INTEGRATED R2
-\url{https://arxiv.org/pdf/???}.
 }
 \seealso{
 \code{\link{ford}}
