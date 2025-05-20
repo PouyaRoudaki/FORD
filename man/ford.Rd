@@ -107,7 +107,7 @@ full dataset, it may be absent entirely in some chunk.
 }
 \examples{
 # Example 1
-n = 1000
+n = 500
 p = 100
 x <- matrix(rnorm(n * p), nrow = n)
 colnames(x) = paste0(rep("x", p), seq(1, p))

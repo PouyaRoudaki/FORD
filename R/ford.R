@@ -172,7 +172,7 @@ ford_main <- function(Y, X, dist.type.X = "continuous", num_features = NULL, sto
 #' @seealso \code{\link{irdc}}, \code{\link[XICOR]{xicor}}
 #' @examples
 #' # Example 1
-#' n = 1000
+#' n = 500
 #' p = 100
 #' x <- matrix(rnorm(n * p), nrow = n)
 #' colnames(x) = paste0(rep("x", p), seq(1, p))

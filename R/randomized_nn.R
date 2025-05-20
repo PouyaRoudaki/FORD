@@ -29,7 +29,7 @@
 #'
 #' @return A list including a vector of first two groups of neighbors for X_i and a vector of the first two neighbors of X_i
 #' @keywords internal
-#'
+#' @importFrom utils head
 .get_neighbors <- function(i, dists_mat, idxs_mat, n) {
 
   # Extract the distances of X_i to all other points
