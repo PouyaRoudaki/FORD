@@ -20,7 +20,7 @@ library(ggplot2)  # For visualization
 
 # Introduction
 
-We propose a simple dependence measure $\nu(Y, \mathbf{X})$ ([*A new measure of dependence: Integrated $R^2$*](https://arxiv.org/pdf/1910.12327.pdf).) to assess how much a random variable $X$ explains a univariate response $Y$.
+We propose a simple dependence measure $\nu(Y, \mathbf{X})$ ([*A new measure of dependence: Integrated $R^2$*](https://www.jstor.org/stable/27170947).) to assess how much a random variable $X$ explains a univariate response $Y$.
 
 
 
