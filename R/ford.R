@@ -101,7 +101,7 @@ ford_main <- function(Y, X, dist.type.X = "continuous", num_features = NULL, sto
 #' The default value is "scale" and normalizes each column of X to have mean zero and variance 1. If set equal to "bounded"
 #' map the values of each column of X to [0, 1].
 #' @param numCores Number of cores that are going to be used for
-#' parallelizing the variable selecction process.
+#' parallelizing the variable selection process.
 #' @param parPlat Specifies the parallel platform to chunk data by rows.
 #' It can take three values:
 #' 1- The default value is set to 'none', in which case no row chunking

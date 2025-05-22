@@ -36,7 +36,7 @@ The default value is "scale" and normalizes each column of X to have mean zero a
 map the values of each column of X to [0, 1].}
 
 \item{numCores}{Number of cores that are going to be used for
-parallelizing the variable selecction process.}
+parallelizing the variable selection process.}
 
 \item{parPlat}{Specifies the parallel platform to chunk data by rows.
 It can take three values:
