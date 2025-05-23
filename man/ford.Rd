@@ -2,7 +2,7 @@
 % Please edit documentation in R/ford.R
 \name{ford}
 \alias{ford}
-\title{Variable selection by the ford algorithm}
+\title{Variable selection by the FORD algorithm}
 \usage{
 ford(
   Y,
@@ -56,7 +56,7 @@ the 'irdc' values. Typically the latter will begin to level off at
 some point, with additional marginal improvements being small.
 }
 \description{
-ford is a variable selection algorithm based on  Integrated R square dependence coefficient \code{\link{irdc}}.
+FORD is a variable selection algorithm based on  Integrated R square dependence coefficient \code{\link{irdc}}.
 }
 \details{
 ford is a forward stepwise algorithm that uses the conditional dependence coefficient (\code{\link{irdc}})

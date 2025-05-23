@@ -1,11 +1,11 @@
 ####################################################################
 # MAIN FUNCTIONS:
-# ford_main: the core function for implementing the ford algorithm
+# ford_main: the core function for implementing the FORD algorithm
 # ford:  Performs feature ordering by Integrated R square dependence coefficient
 ####################################################################
 
 # ford_main -------------------------------------------------------------------------
-#' Variable selection by the ford algorithm
+#' Variable selection by the FORD algorithm
 #
 #' ford_main is the core function for ford, implementing the
 #' variable selection algorithm based on the Integrated R square dependence coefficient \code{\link{irdc}}.
@@ -87,9 +87,9 @@ ford_main <- function(Y, X, dist.type.X = "continuous", num_features = NULL, sto
 
 
 # ford -------------------------------------------------------------------------
-#' Variable selection by the ford algorithm
+#' Variable selection by the FORD algorithm
 #'
-#' ford is a variable selection algorithm based on  Integrated R square dependence coefficient \code{\link{irdc}}.
+#' FORD is a variable selection algorithm based on  Integrated R square dependence coefficient \code{\link{irdc}}.
 #'
 #' @param Y Vector of responses (length n)
 #' @param X Matrix of predictors (n by p)
