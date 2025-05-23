@@ -138,7 +138,7 @@ Statistical Computations into Embarrassingly-Parallel Ones.
 \emph{J. of Stat. Software.}
 }
 \seealso{
-\code{\link{irdc}}, \code{\link[XICOR]{xicor}}
+\code{\link{irdc}}
 }
 \author{
 Mona Azadkia, Pouya Roudaki

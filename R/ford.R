@@ -168,7 +168,7 @@ ford_main <- function(Y, X, dist.type.X = "continuous", num_features = NULL, sto
 #' @references Matloff, N. (2016). Software Alchemy: Turning Complex
 #' Statistical Computations into Embarrassingly-Parallel Ones.
 #' \emph{J. of Stat. Software.}
-#' @seealso \code{\link{irdc}}, \code{\link[XICOR]{xicor}}
+#' @seealso \code{\link{irdc}}
 #' @examples
 #' # Example 1
 #' n = 500
