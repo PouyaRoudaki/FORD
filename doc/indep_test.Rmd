@@ -29,7 +29,8 @@ Then the **simple irdc dependence measure** is defined as:
 $$
     \nu_{n}^{\text{1-dim}}(Y, X) := 1 - \frac{1}{2}\sum_{j \atop r_j \neq 1, n}\sum_{i\neq j, j - 1, n} \frac{\mathbb{I}[r_j\in\mathcal{K}_i]}{(r_j - 1)(n - r_j)}.
 $$
-where $\mathbb{I}[r_j\in\mathcal{K}_i]$ is a 0-1 indicator function and $\mathcal{K}_i := (\min\{r_i, r_{i + 1}\}, \max\{r_{i}, r_{i + 1}\})$ when we ordered data with respect to $X$ and rank with respect to $Y$.  We conjecture that under the same assumptions $\sqrt{n}\nu_{n}^{\text{1-dim}}(Y, X)$ converges in distribution to $N(0, \pi^2/3 - 3)$ as $n\rightarrow\infty$.
+where $\mathbb{I}[r_j\in\mathcal{K}_i]$ is a 0-1 indicator function and $\mathcal{K}_i := [\min\{r_i, r_{i + 1}\}, \max\{r_{i}, r_{i + 1}\}]$ when we ordered data with respect to $X$ and rank with respect to $Y$.  We conjecture that under the same assumptions $$\sqrt{n}\left(\nu_{n}^{\text{1-dim}}(Y, X)-\frac{2}{n}\right)$$
+converges in distribution to $N(0, \pi^2/3 - 3)$ as $n\rightarrow\infty$.
 
 We compare this metric with the ([*A new coefficient of correlation*, Chatterjee 2021](https://www.tandfonline.com/doi/full/10.1080/01621459.2020.1758115).
 The $\xi$ measure is defined as following:
@@ -46,7 +47,7 @@ $$
 
 # Pattern detection for Yeast genes
 
-In this study, we use the revised and curated dataset, `Spellman` in `R` package`minerva`, with 4381 genes to study the power of $ \nu_{n}^{\text{1-dim}}(Y, X)$ in discovering genes with oscillating transcript levels, and compare its performance with the competing
+In this study, we use the revised and curated dataset, `Spellman` in `R` package`minerva`, with 4381 genes to study the power of $\nu_{n}^{\text{1-dim}}(Y, X)$ in discovering genes with oscillating transcript levels, and compare its performance with the competing
 tests by $\xi_n$. We also explore the possible patterns in this dataset.
 
 ### Load and Prepare Data
@@ -113,19 +114,20 @@ irdc_do_genes <- yeast_genes_data[, which(gene_names %in% smallest_p_irdc_do) + 
 irdc_do_genes <- cbind(time_points, irdc_do_genes)
 ```
 
-### Plot Top Genes Only Detected by IRDC
+### Plot Top Genes Only Detected by IRDC With Smallest Adjusted P_value IRDC
 
-```{r, fig.height=4, fig.width=6, results='asis'}
+```{r, fig.height=4, fig.width=6, results='asis',message=FALSE}
 for (i in 1:6) {
   gene_to_plot <- colnames(irdc_do_genes)[i + 1]
   idx <- match(gene_to_plot, gene_names)
 
   p <- ggplot(irdc_do_genes, aes(x = time_points, y = .data[[gene_to_plot]])) +
-    geom_point() +
+    geom_point(size = 3) +
+    geom_smooth(method = "loess",se = FALSE, linewidth = 1, color = "blue")+ 
     theme_bw() +
     labs(
-      title = paste0("Only Detected by nu: xi FDR = ", round(xi_fdr[idx], 4),
-                     ", nu FDR = ", round(ird_fdr[idx], 4)),
+      title = paste0("Only Detected by nu: xi adj.p-val = ", round(xi_fdr[idx], 4),
+                     ", nu adj.p-val = ", round(ird_fdr[idx], 4)),
       x = "Time Points",
       y = gene_to_plot
     )
@@ -133,30 +135,31 @@ for (i in 1:6) {
 }
 ```
 
-## Genes with Largest FDR Difference (IRDC Only)
+### Genes with Largest Adjusted P_value of XICOR
 
 ```{r}
 xi_irdc_only_fdr <- xi_fdr[match(irdc_detected_only, gene_names)]
-top6_diff <- order(-(xi_irdc_only_fdr - irdc_only_fdr))[1:6]
+top6_diff <- order(-(xi_irdc_only_fdr))[1:6]
 largest_p_dif_irdc_do <- irdc_detected_only[top6_diff]
 
 irdc_do_large_diff_genes <- yeast_genes_data[, which(gene_names %in% largest_p_dif_irdc_do) + 1]
 irdc_do_large_diff_genes <- cbind(time_points, irdc_do_large_diff_genes)
 ```
 
-### Plot Top Genes with Largest FDR Discrepancy
+### Plot Top Genes with With Largest Adjusted P_value XICOR
 
-```{r, fig.height=4, fig.width=6, results='asis'}
+```{r, fig.height=4, fig.width=6, results='asis',message=FALSE}
 for (i in 1:6) {
   gene_to_plot <- colnames(irdc_do_large_diff_genes)[i + 1]
   idx <- match(gene_to_plot, gene_names)
 
   p <- ggplot(irdc_do_large_diff_genes, aes(x = time_points, y = .data[[gene_to_plot]])) +
-    geom_point() +
+    geom_point(size = 3) +
+    geom_smooth(method = "loess", se = FALSE, linewidth = 1, color = "blue")+ 
     theme_bw() +
     labs(
-      title = paste0("Only Detected by nu: xi FDR = ", round(xi_fdr[idx], 4),
-                     ", nu FDR = ", round(ird_fdr[idx], 4)),
+      title = paste0("Only Detected by nu: xi adj.p-val = ", round(xi_fdr[idx], 4),
+                     ", nu adj.p-val = ", round(ird_fdr[idx], 4)),
       x = "Time Points",
       y = gene_to_plot
     )

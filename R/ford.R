@@ -27,6 +27,7 @@
 #' @author Mona Azadkia, Pouya Roudaki
 #' @references Azadkia, M. and Roudaki, P. (2025). A NEW MEASURE OF DEPENDENCE: INTEGRATED R2
 #' @seealso \code{\link{irdc}}
+#' @keywords internal
 ford_main <- function(Y, X, dist.type.X = "continuous", num_features = NULL, stop = TRUE, numCores = parallel::detectCores()){
 
   namesX <- colnames(X)

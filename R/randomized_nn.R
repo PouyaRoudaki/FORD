@@ -112,22 +112,7 @@
 #' @return A list including:
 #'   - a list of the first two groups of neighbors (shuffled) for all observations,
 #'   - and a matrix containing the first two neighbors of each observation.
-#'
-#' @export
-#'
-#' @examples
-#' # Create a small example matrix with some repeated rows
-#' set.seed(42)
-#' X <- c(1, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 4, 5, 5)
-#'
-#' # Run the randomized neighbor function
-#' result <- randomized_nn(X)
-#'
-#' # View the shuffled full neighbor groups for each observation
-#' result$two_groups_of_neighbors
-#'
-#' # View the matrix of the first two neighbors for each observation
-#' result$two_neighbors
+#' @keywords internal
 randomized_nn <- function(X) {
 
 

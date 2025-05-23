@@ -3,7 +3,6 @@
 export(ford)
 export(irdc)
 export(irdc_simple)
-export(randomized_nn)
 import(data.table)
 importFrom(stats,complete.cases)
 importFrom(stats,sd)

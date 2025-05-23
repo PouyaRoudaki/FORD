@@ -58,17 +58,18 @@ smallest_p_irdc_do <- irdc_detected_only[top6_idx]
 irdc_do_genes <- yeast_genes_data[, which(gene_names %in% smallest_p_irdc_do) + 1]
 irdc_do_genes <- cbind(time_points, irdc_do_genes)
 
-## ----fig.height=4, fig.width=6, results='asis'--------------------------------
+## ----fig.height=4, fig.width=6, results='asis',message=FALSE------------------
 for (i in 1:6) {
   gene_to_plot <- colnames(irdc_do_genes)[i + 1]
   idx <- match(gene_to_plot, gene_names)
 
   p <- ggplot(irdc_do_genes, aes(x = time_points, y = .data[[gene_to_plot]])) +
-    geom_point() +
+    geom_point(size = 3) +
+    geom_smooth(method = "loess",se = FALSE, linewidth = 1, color = "blue")+ 
     theme_bw() +
     labs(
-      title = paste0("Only Detected by nu: xi FDR = ", round(xi_fdr[idx], 4),
-                     ", nu FDR = ", round(ird_fdr[idx], 4)),
+      title = paste0("Only Detected by nu: xi adj.p-val = ", round(xi_fdr[idx], 4),
+                     ", nu adj.p-val = ", round(ird_fdr[idx], 4)),
       x = "Time Points",
       y = gene_to_plot
     )
@@ -77,23 +78,24 @@ for (i in 1:6) {
 
 ## -----------------------------------------------------------------------------
 xi_irdc_only_fdr <- xi_fdr[match(irdc_detected_only, gene_names)]
-top6_diff <- order(-(xi_irdc_only_fdr - irdc_only_fdr))[1:6]
+top6_diff <- order(-(xi_irdc_only_fdr))[1:6]
 largest_p_dif_irdc_do <- irdc_detected_only[top6_diff]
 
 irdc_do_large_diff_genes <- yeast_genes_data[, which(gene_names %in% largest_p_dif_irdc_do) + 1]
 irdc_do_large_diff_genes <- cbind(time_points, irdc_do_large_diff_genes)
 
-## ----fig.height=4, fig.width=6, results='asis'--------------------------------
+## ----fig.height=4, fig.width=6, results='asis',message=FALSE------------------
 for (i in 1:6) {
   gene_to_plot <- colnames(irdc_do_large_diff_genes)[i + 1]
   idx <- match(gene_to_plot, gene_names)
 
   p <- ggplot(irdc_do_large_diff_genes, aes(x = time_points, y = .data[[gene_to_plot]])) +
-    geom_point() +
+    geom_point(size = 3) +
+    geom_smooth(method = "loess", se = FALSE, linewidth = 1, color = "blue")+ 
     theme_bw() +
     labs(
-      title = paste0("Only Detected by nu: xi FDR = ", round(xi_fdr[idx], 4),
-                     ", nu FDR = ", round(ird_fdr[idx], 4)),
+      title = paste0("Only Detected by nu: xi adj.p-val = ", round(xi_fdr[idx], 4),
+                     ", nu adj.p-val = ", round(ird_fdr[idx], 4)),
       x = "Time Points",
       y = gene_to_plot
     )
