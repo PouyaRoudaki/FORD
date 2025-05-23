@@ -45,7 +45,7 @@ irdc(y, x[, 3])
 Azadkia, M. and Roudaki, P. (2025). A NEW MEASURE OF DEPENDENCE: INTEGRATED R2
 }
 \seealso{
-\code{\link{ford}}
+\code{\link{ford}},\code{\link{irdc_simple}}
 }
 \author{
 Mona Azadkia, Pouya Roudaki

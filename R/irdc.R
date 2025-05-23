@@ -24,7 +24,7 @@
 #' @export
 #' @author Mona Azadkia, Pouya Roudaki
 #' @references Azadkia, M. and Roudaki, P. (2025). A NEW MEASURE OF DEPENDENCE: INTEGRATED R2
-#' @seealso \code{\link{ford}}
+#' @seealso \code{\link{ford}},\code{\link{irdc_simple}}
 #' @examples
 #' n = 1000
 #' x <- matrix(runif(n * 3), nrow = n)
