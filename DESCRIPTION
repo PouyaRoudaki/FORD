@@ -1,7 +1,7 @@
 Package: FORD
 Type: Package
 Title: Feature Ordering by Integrated R Square Dependence
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: c(
     person(
       "Pouya", "Roudaki",
@@ -14,7 +14,7 @@ Authors@R: c(
       role = c("aut", "ctb")
     )
   )
-Description: Feature Ordering by Integrated R square Dependence (FORD) is a variable selection algorithm based on the new measure of dependence: Integrated R2 Dependence Coefficient (IRDC). For more information, see the paper: Azadkia and Roudaki (2025),"A New Measure Of Dependence: Integrated R2" <arXiv:2505.18146>.
+Description: Feature Ordering by Integrated R square Dependence (FORD) is a variable selection algorithm based on the new measure of dependence: Integrated R2 Dependence Coefficient (IRDC). For more information, see the paper: Azadkia and Roudaki (2025),"A New Measure Of Dependence: Integrated R2" <doi:10.48550/arXiv:2505.18146>.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
