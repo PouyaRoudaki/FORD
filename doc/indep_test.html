@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta name="generator" content="litedown 0.7">
-<title>indep-test</title>
+<title>independence-test</title>
 <style type="text/css">
 body {
   font-family: sans-serif;
@@ -116,16 +116,16 @@ section.footnotes {
 </head>
 <body>
 <div class="frontmatter">
-<div class="title"><h1>indep-test</h1></div>
+<div class="title"><h1>independence-test</h1></div>
 </div>
 <div class="body">
 <h1 id="chp:introduction">Introduction</h1>
-<p>We propose a simple dependence measure \(\nu(Y, \mathbf{X})\) (<a href="https://www.jstor.org/stable/27170947"><em>A new measure of dependence: Integrated \(R^2\)</em></a>.) to assess how much a random variable \(X\) explains a univariate response \(Y\).</p>
+<p>We propose a simple dependence measure \(\nu(Y, \mathbf{X})\) (<a href="http://arxiv.org/abs/2505.18146"><em>A New Measure Of Dependence: Integrated R2</em></a>.) to assess how much a random variable \(X\) explains a univariate response \(Y\).</p>
 <p>Then the <strong>simple irdc dependence measure</strong> is defined as:</p>
 <p>$$
 \nu_{n}^{\text{1-dim}}(Y, X) := 1 - \frac{1}{2}\sum_{j \atop r_j \neq 1, n}\sum_{i\neq j, j - 1, n} \frac{\mathbb{I}[r_j\in\mathcal{K}_i]}{(r_j - 1)(n - r_j)}.
 $$
-where \(\mathbb{I}[r_j\in\mathcal{K}_i]\) is a 0-1 indicator function and \(\mathcal{K}_i := [\min\{r_i, r_{i + 1}\}, \max\{r_{i}, r_{i + 1}\}]\) when we ordered data with respect to \(X\) and rank with respect to \(Y\).  We conjecture that under the same assumptions $$\sqrt{n}\left(\nu_{n}^{\text{1-dim}}(Y, X)-\frac{2}{n}\right)$$
+where \(\mathbb{I}[r_j\in\mathcal{K}_i]\) is a 0-1 indicator function and \(\mathcal{K}_i := [\min\{r_i, r_{i + 1}\}, \max\{r_{i}, r_{i + 1}\}]\) when we ordered data with respect to \(X\) and rank with respect to \(Y\).  In <a href="http://arxiv.org/abs/2505.18146"><em>A New Measure Of Dependence: Integrated R2</em></a>, we conjecture that under the same assumptions $$\sqrt{n}\left(\nu_{n}^{\text{1-dim}}(Y, X)-\frac{2}{n}\right)$$
 converges in distribution to \(N(0, \pi^2/3 - 3)\) as \(n\rightarrow\infty\).</p>
 <p>We compare this metric with the (<a href="https://www.tandfonline.com/doi/full/10.1080/01621459.2020.1758115"><em>A new coefficient of correlation</em>, Chatterjee 2021</a>.
 The \(\xi\) measure is defined as following:

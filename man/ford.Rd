@@ -131,14 +131,15 @@ ford(y, x, parPlat = cls)
 }
 }
 \references{
-Azadkia, M. and Roudaki, P. (2025). A NEW MEASURE OF DEPENDENCE: INTEGRATED R2
+Azadkia, M. and Roudaki, P. (2025). A New Measure Of Dependence: Integrated R2
+\url{http://arxiv.org/abs/2505.18146}.
 
 Matloff, N. (2016). Software Alchemy: Turning Complex
 Statistical Computations into Embarrassingly-Parallel Ones.
 \emph{J. of Stat. Software.}
 }
 \seealso{
-\code{\link{irdc}}
+\code{\link{irdc}}, \code{\link[FOCI]{foci}}, \code{\link[KPC]{KFOCI}}
 }
 \author{
 Mona Azadkia, Pouya Roudaki

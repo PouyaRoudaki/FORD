@@ -19,7 +19,7 @@ library(ggplot2)  # For visualization
 
 # Introduction
 
-We propose a new dependence measure $\nu(Y, \mathbf{X})$ ([*A new measure of dependence: Integrated $R^2$*](https://www.jstor.org/stable/27170947)) to assess how much a random vector $\mathbf{X}$ explains a univariate response $Y$. Let $Y$ be a random variable and $\mathbf{X} = (X_1, \cdots, X_p)$ a random vector defined on the same probability space. Let $\mu$ be the probability law of $Y$, and $S$ be the support of $\mu$. Define:
+We propose a new dependence measure $\nu(Y, \mathbf{X})$ ([*A New Measure Of Dependence: Integrated R2*](http://arxiv.org/abs/2505.18146)) to assess how much a random vector $\mathbf{X}$ explains a univariate response $Y$. Let $Y$ be a random variable and $\mathbf{X} = (X_1, \cdots, X_p)$ a random vector defined on the same probability space. Let $\mu$ be the probability law of $Y$, and $S$ be the support of $\mu$. Define:
 
 $$
 \tilde{S} = 
@@ -163,3 +163,6 @@ FOCI::codec(y2, x1)
 # Conclusion
 
 *irdc* provides a flexible and theoretically grounded dependence measure that works for both continuous and discrete predictors. 
+
+For further theoretical details, see our paper:  
+Azadkia and Roudaki (2025), [*A New Measure Of Dependence: Integrated R2*](http://arxiv.org/abs/2505.18146)

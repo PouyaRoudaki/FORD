@@ -25,8 +25,9 @@
 #' @return An object of class "ford", with three attributes a vector of selected covariates,
 #' their names and their cumulative dependence value with Y in decreasing order of predictive power.
 #' @author Mona Azadkia, Pouya Roudaki
-#' @references Azadkia, M. and Roudaki, P. (2025). A NEW MEASURE OF DEPENDENCE: INTEGRATED R2
-#' @seealso \code{\link{irdc}}
+#' @references Azadkia, M. and Roudaki, P. (2025). A New Measure Of Dependence: Integrated R2
+#' \url{http://arxiv.org/abs/2505.18146}.
+#' @seealso \code{\link{irdc}}, \code{\link[FOCI]{foci}}, \code{\link[KPC]{KFOCI}}
 #' @keywords internal
 ford_main <- function(Y, X, dist.type.X = "continuous", num_features = NULL, stop = TRUE, numCores = parallel::detectCores()){
 
@@ -164,11 +165,12 @@ ford_main <- function(Y, X, dist.type.X = "continuous", num_features = NULL, sto
 #' @import data.table
 #' @export
 #' @author Mona Azadkia, Pouya Roudaki
-#' @references Azadkia, M. and Roudaki, P. (2025). A NEW MEASURE OF DEPENDENCE: INTEGRATED R2
+#' @references Azadkia, M. and Roudaki, P. (2025). A New Measure Of Dependence: Integrated R2
+#' \url{http://arxiv.org/abs/2505.18146}.
 #' @references Matloff, N. (2016). Software Alchemy: Turning Complex
 #' Statistical Computations into Embarrassingly-Parallel Ones.
 #' \emph{J. of Stat. Software.}
-#' @seealso \code{\link{irdc}}
+#' @seealso \code{\link{irdc}}, \code{\link[FOCI]{foci}}, \code{\link[KPC]{KFOCI}}
 #' @examples
 #' # Example 1
 #' n = 500

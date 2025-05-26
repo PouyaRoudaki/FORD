@@ -42,10 +42,11 @@ irdc(y, x[, 2])
 irdc(y, x[, 3])
 }
 \references{
-Azadkia, M. and Roudaki, P. (2025). A NEW MEASURE OF DEPENDENCE: INTEGRATED R2
+Azadkia, M. and Roudaki, P. (2025). A New Measure Of Dependence: Integrated R2
+\url{http://arxiv.org/abs/2505.18146}.
 }
 \seealso{
-\code{\link{ford}},\code{\link{irdc_simple}}
+\code{\link{ford}}, \code{\link{irdc_simple}}, \code{\link[FOCI]{codec}}, \code{\link[XICOR]{xicor}}, \code{\link[KPC]{KPCgraph}}, \code{\link[KPC]{KPCRKHS}}
 }
 \author{
 Mona Azadkia, Pouya Roudaki

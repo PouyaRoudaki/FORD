@@ -1,5 +1,5 @@
 ---
-title: "indep-test"
+title: "independence-test"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{indep-test}
@@ -20,7 +20,7 @@ library(ggplot2)  # For visualization
 
 # Introduction
 
-We propose a simple dependence measure $\nu(Y, \mathbf{X})$ ([*A new measure of dependence: Integrated $R^2$*](https://www.jstor.org/stable/27170947).) to assess how much a random variable $X$ explains a univariate response $Y$.
+We propose a simple dependence measure $\nu(Y, \mathbf{X})$ ([*A New Measure Of Dependence: Integrated R2*](http://arxiv.org/abs/2505.18146).) to assess how much a random variable $X$ explains a univariate response $Y$.
 
 
 
@@ -29,7 +29,7 @@ Then the **simple irdc dependence measure** is defined as:
 $$
     \nu_{n}^{\text{1-dim}}(Y, X) := 1 - \frac{1}{2}\sum_{j \atop r_j \neq 1, n}\sum_{i\neq j, j - 1, n} \frac{\mathbb{I}[r_j\in\mathcal{K}_i]}{(r_j - 1)(n - r_j)}.
 $$
-where $\mathbb{I}[r_j\in\mathcal{K}_i]$ is a 0-1 indicator function and $\mathcal{K}_i := [\min\{r_i, r_{i + 1}\}, \max\{r_{i}, r_{i + 1}\}]$ when we ordered data with respect to $X$ and rank with respect to $Y$.  We conjecture that under the same assumptions $$\sqrt{n}\left(\nu_{n}^{\text{1-dim}}(Y, X)-\frac{2}{n}\right)$$
+where $\mathbb{I}[r_j\in\mathcal{K}_i]$ is a 0-1 indicator function and $\mathcal{K}_i := [\min\{r_i, r_{i + 1}\}, \max\{r_{i}, r_{i + 1}\}]$ when we ordered data with respect to $X$ and rank with respect to $Y$.  In [*A New Measure Of Dependence: Integrated R2*](http://arxiv.org/abs/2505.18146), we conjecture that under the same assumptions $$\sqrt{n}\left(\nu_{n}^{\text{1-dim}}(Y, X)-\frac{2}{n}\right)$$
 converges in distribution to $N(0, \pi^2/3 - 3)$ as $n\rightarrow\infty$.
 
 We compare this metric with the ([*A new coefficient of correlation*, Chatterjee 2021](https://www.tandfonline.com/doi/full/10.1080/01621459.2020.1758115).

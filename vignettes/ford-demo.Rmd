@@ -18,7 +18,7 @@ library(FOCI)
 
 # Introduction
 
-In this vignette, we demonstrate **FORD**, a forward stepwise variable selection algorithm based on the integrated $R^2$ dependence measure. **FORD** is designed for variable ranking in both linear and nonlinear multivariate regression settings.
+In this vignette, we demonstrate **FORD** algorithm in [*A New Measure Of Dependence: Integrated R2*](http://arxiv.org/abs/2505.18146), a forward stepwise variable selection algorithm based on the integrated $R^2$ dependence measure. **FORD** is designed for variable ranking in both linear and nonlinear multivariate regression settings.
 
 **FORD** closely follows the structure of **FOCI** [*A Simple Measure Of Conditional Dependence*](https://www.jstor.org/stable/27170947), but replaces the core dependence measure with **irdc**.
 
@@ -99,4 +99,4 @@ result_ford_2
 **FORD** provides an interpretable, irdc-based alternative to FOCI for variable selection in regression tasks. It offers a principled forward selection framework that can detect complex nonlinear relationships and be adapted for fixed-size feature subsets.
 
 For further theoretical details, see our paper:  
-Azadkia and Roudaki (2025), [*A new measure of dependence: Integrated $R^2$*](https://www.jstor.org/stable/27170947).
+Azadkia and Roudaki (2025), [*A New Measure Of Dependence: Integrated R2*](http://arxiv.org/abs/2505.18146)
