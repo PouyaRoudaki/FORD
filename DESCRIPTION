@@ -21,7 +21,7 @@ LazyData: true
 URL: https://github.com/PouyaRoudaki/FORD
 BugReports: https://github.com/PouyaRoudaki/FORD/issues
 RoxygenNote: 7.3.2
-Suggests: knitr, rmarkdown, markdown, xfun, testthat, minerva, devtools, FOCI, XICOR, KPC, dplyr, ggplot2, proxy, gmp, RANN, parallel
+Suggests: knitr, rmarkdown, markdown, xfun, testthat, minerva, devtools, FOCI, XICOR, KPC, dplyr, ggplot2
 VignetteBuilder: knitr
 Depends: R (>= 3.6.0), data.table
 Imports: RANN, parallel
