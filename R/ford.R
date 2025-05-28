@@ -186,18 +186,6 @@ ford_main <- function(Y, X, dist.type.X = "continuous", num_features = NULL, sto
 #' # same example, but stop according to the stopping rule
 #' result2 = ford(y, x, numCores = 1)
 #' result2
-#' \donttest{
-#' # Windows use of multicore (limited to 2 cores for CRAN)
-#' library(parallel)
-#' cls <- makeCluster(2)
-#' ford(y, x, parPlat = cls)
-#' stopCluster(cls)
-#'
-#' # Example for distributed cluster (commented out for portability)
-#' # cls <- makePSOCKcluster(c('machineA','machineB'))
-#' # ford(y, x, parPlat = cls)
-#' # stopCluster(cls)
-#' }
 ford <- function(Y, X, dist.type.X = "continuous", num_features = NULL, stop = TRUE, na.rm = TRUE,
                  standardize = "scale", numCores = parallel::detectCores(),
                  parPlat = 'none', printIntermed = TRUE) {
