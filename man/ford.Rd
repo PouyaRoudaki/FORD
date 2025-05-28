@@ -120,14 +120,17 @@ result1
 # same example, but stop according to the stopping rule
 result2 = ford(y, x, numCores = 1)
 result2
-\dontrun{
-# Windows use of multicore
+\donttest{
+# Windows use of multicore (limited to 2 cores for CRAN)
 library(parallel)
-cls <- makeCluster(parallel::detectCores())
+cls <- makeCluster(2)
 ford(y, x, parPlat = cls)
-# run on physical cluster
-cls <- makePSOCKcluster('machineA','machineB')
-ford(y, x, parPlat = cls)
+stopCluster(cls)
+
+# Example for distributed cluster (commented out for portability)
+# cls <- makePSOCKcluster(c('machineA','machineB'))
+# ford(y, x, parPlat = cls)
+# stopCluster(cls)
 }
 }
 \references{
